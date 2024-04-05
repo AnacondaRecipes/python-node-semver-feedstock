@@ -14,16 +14,19 @@ source:
 build:
   number: 0
   noarch: python
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+  script: {{ PYTHON }} -m pip install --no-build-isolation --no-deps . --ignore-installed --no-cache-dir -vvv
 
 requirements:
   host:
     - python >=3.6
     - pip
+    - wheel
   run:
     - python >=3.6
 
 test:
+  commands:
+    - pip check
   imports:
     - nodesemver
 
@@ -36,6 +39,10 @@ about:
   dev_url: https://github.com/podhmo/python-semver
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/46418
+    reason: Dependency for conan
   recipe-maintainers:
+    - ianaobi
     - windelbouwman
     - abloemert
